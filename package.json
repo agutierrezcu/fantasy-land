@@ -3,30 +3,178 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.0.1",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.4.1",
-    "@types/node": "^16.11.26",
-    "@types/react": "^18.0.4",
-    "@types/react-dom": "^18.0.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/react": "13.0.1",
+    "@testing-library/user-event": "13.5.0",
+    "@types/jest": "27.4.1",
+    "@types/node": "16.11.26",
+    "@types/react": "18.0.4",
+    "@types/react-dom": "18.0.0",
+    "react": "18.0.0",
+    "react-dom": "18.0.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.6.3",
-    "web-vitals": "^2.1.4"
+    "typescript": "4.6.3",
+    "web-vitals": "2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "format": "prettier --write \"./**/*.{json,css,scss,md}\"",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn test --watchAll=false"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "./**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix --max-warnings=0"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "5.19.0",
+    "eslint": "8.13.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-jsx": "0.1.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.29.4",
+    "eslint-plugin-unused-imports": "2.0.0",
+    "husky": "4.3.8",
+    "lint-staged": "12.3.7",
+    "prettier": "2.6.2",
+    "source-map-explorer": "2.5.2"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxSingleQuote": false,
+    "printWidth": 80,
+    "proseWrap": "always",
+    "semi": true,
+    "singleQuote": false,
+    "tabWidth": 2,
+    "trailingComma": "es5"
   },
   "eslintConfig": {
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "warnOnUnsupportedTypeScriptVersion": true,
+      "babelOptions": {
+        "presets": [
+          "@babel/preset-react"
+        ]
+      },
+      "requireConfigFile": false
+    },
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:import/recommended",
+      "plugin:import/typescript",
+      "plugin:jsx-a11y/recommended",
+      "plugin:react/jsx-runtime",
+      "plugin:react-hooks/recommended",
+      "plugin:jest/recommended",
+      "plugin:testing-library/react",
+      "plugin:prettier/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "react",
+      "import",
+      "jsx",
+      "jsx-a11y",
+      "react-hooks",
+      "@typescript-eslint/eslint-plugin",
+      "prettier",
+      "testing-library",
+      "unused-imports"
+    ],
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "es6": true,
+      "jest": true,
+      "node": true
+    },
+    "rules": {
+      "prettier/prettier": "error",
+      "arrow-body-style": "off",
+      "prefer-arrow-callback": "off",
+      "import/order": [
+        "warn",
+        {
+          "alphabetize": {
+            "caseInsensitive": true,
+            "order": "asc"
+          },
+          "groups": [
+            "builtin",
+            "external",
+            "index",
+            "sibling",
+            "parent",
+            "internal"
+          ]
+        }
+      ],
+      "no-console": "warn",
+      "no-duplicate-imports": "warn",
+      "no-unused-vars": "warn",
+      "react/jsx-filename-extension": [
+        "error",
+        {
+          "extensions": [
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx"
+          ]
+        }
+      ],
+      "react/prop-types": "warn",
+      "sort-imports": [
+        "warn",
+        {
+          "ignoreCase": false,
+          "ignoreDeclarationSort": true,
+          "ignoreMemberSort": false
+        }
+      ],
+      "react/jsx-uses-vars": "warn",
+      "unused-imports/no-unused-imports": "error"
+    },
+    "overrides": [
+      {
+        "files": [
+          "*.ts",
+          "*.tsx"
+        ],
+        "parserOptions": {
+          "project": [
+            "tsconfig.json"
+          ]
+        }
+      }
     ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   },
   "browserslist": {
     "production": [
